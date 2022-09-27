@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="display: block" id="primeiraFase">
+      <h1>Banco 24H</h1>
+      <p>A quantidade de cédula de R$ 10,00</p>
+      <input type="text" name="" id="input_10" />
+      <p>A quantidade de cédula de R$ 50,00</p>
+      <input type="text" name="" id="input_50" />
+      <p>A quantidade de cédula de R$ 100,00</p>
+      <input type="text" name="" id="input_100" />
+      <button onclick="Iniciar()">Iniciar</button>
+    </div>
+    <div style="display: none" id="segundaFase">
+      <h1>Banco 24H 💰</h1>
+      <h2>As notas disponíveis são de 10, 50 e 100 Reais</h2>
+      <p>Insira o valor desejado para o saque</p>
+      <input type="text" id="input_saque" />
+      <button onclick="saque()">Saque</button>
+    </div>
+  </body>
+</html>
+<script>
+  var qtd10 = 0;
+  var qtd50 = 0;
+  var qtd100 = 0;
+  function Iniciar(params) {
+    qtd10 = Number(input_10.value);
+    qtd50 = Number(input_50.value);
+    qtd100 = Number(input_100.value);
+
+    primeiraFase.style.display = "none";
+    segundaFase.style.display = "block";
+  }
+  function saque(params) {
+    var saque = Number(input_saque.value);
+    var montanteTotal = 10.0 * qtd10 + 50.0 * qtd50 + 100.0 * qtd100;
+
+    var auxiliar1 = qtd10;
+    var auxiliar2 = qtd50;
+    var auxiliar3 = qtd100;
+
+    if (saque > 0) {
+      if (saque > montanteTotal) {
+        alert("Montante disponível não atende a solicitação");
+      } else {
+        if (saque % 10 == 0) {
+          if (saque >= 100.0 && qtd100 != 0) {
+            var usar100 = Math.floor(saque / 100.0);
+            if (usar100 <= qtd100) {
+              qtd100 = qtd100 - usar100;
+              saque = saque - usar100 * 100.0;
+            } else {
+              saque = saque - qtd100 * 100.0;
+              qtd100 = 0;
+            }
+          }
+
+          if (saque >= 50.0 && qtd50 != 0) {
+            var usar50 = Math.floor(saque / 50.0);
+            if (usar50 <= qtd50) {
+              qtd50 = qtd50 - usar50;
+              saque = saque - usar50 * 50.0;
+            } else {
+              saque = saque - qtd50 * 50.0;
+              qtd50 = 0;
+            }
+          }
+
+          if (saque >= 10.0 && qtd10 != 0) {
+            var usar10 = Math.floor(saque / 10.0);
+            if (usar10 <= qtd10) {
+              qtd10 = qtd10 - usar10;
+              saque = saque - usar10 * 10.0;
+            } else {
+              saque = saque - qtd10 * 10.0;
+              qtd10 = 0;
+            }
+          }
+
+          if (saque == 0) {
+            alert("Retire o dinheiro no local indicado");
+          } else {
+            qtd10 = auxiliar1;
+            qtd50 = auxiliar2;
+            qtd100 = auxiliar3;
+            alert(
+              "A quantidade e valor das cédulas disponíveis não atende o valor desejado"
+            );
+          }
+        } else {
+          alert("Valor não possível devido às notas disponíveis");
+        }
+      }
+    } else {
+      alert("Não é possível sacar 0 ou menos");
+    }
+    console.log(qtd10);
+    console.log(qtd50);
+    console.log(qtd100);
+  }
+</script>
